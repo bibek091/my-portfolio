@@ -5,9 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
+       /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f0f0;
+      transition: background-color 0.5s ease, color 0.5s ease;
+      color: #222;
+    }
+    body.dark {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    /* Navbar */
+    nav {
+      background: #ffffffcc;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      transition: background 0.5s ease;
+    }
+    body.dark nav {
+      background: #222222cc;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.6);
+    }
+
+    /* Logo or navbar image */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 8px #ffb700aa;
+      transition: box-shadow 0.3s ease;
+    }
+    body.dark .logo img {
+      box-shadow: 0 0 8px #ffd600cc;
+    }
+    .logo span {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: inherit;
+    }
+
+    /* Navigation links */
+    ul.nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    ul.nav-links li a {
+      text-decoration: none;
+      font-weight: 600;
+      color: inherit;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    ul.nav-links li a::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: #ffb700;
+      transition: width 0.3s ease;
+    }
+    ul.nav-links li a:hover::after {
+      width: 100%;
+    }
+    body.dark ul.nav-links li a::after {
+      background: #ffd600;
+    }
+
+    /* Toggle button container */
+    .toggle-container {
+      position: relative;
+      width: 48px;
+      height: 24px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Hide default checkbox */
+    #toggle-theme {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    /* Custom toggle */
+    .toggle {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 24px;
+      background: #ffb700;
+      border-radius: 12px;
+      transition: background 0.3s ease;
+    }
+    body.dark .toggle {
+      background: #444;
+    }
+
+    /* The circle (knob) */
+    .toggle::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+    }
+
+    /* When checked, move knob */
+    #toggle-theme:checked + .toggle::before {
+      transform: translateX(24px);
+      box-shadow: 0 2px 8px rgb(255 215 0 / 0.6);
+    }
+
+    /* Icons */
+    .icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+      fill: #fff;
+      transition: opacity 0.3s ease;
+    }
+    .icon.sun {
+      left: 6px;
+      opacity: 1;
+    }
+    .icon.moon {
+      right: 6px;
+      opacity: 0;
+    }
+
+    /* Show moon icon when dark mode */
+    #toggle-theme:checked ~ .icon.sun {
+      opacity: 0;
+    }
+    #toggle-theme:checked ~ .icon.moon {
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      ul.nav-links {
+        display: none;
+      }
+    }
+       :root {
             --primary: #4f46e5;
             --secondary: #10b981;
             --dark: #1e293b;
@@ -18,8 +194,30 @@
             font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
             background-color: var(--light);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
+        body.dark {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+
+        body.dark .bg-white {
+            background-color: #1e293b;
+        }
+
+        body.dark .bg-gray-50 {
+            background-color: #2a2a2a;
+        }
+
+        body.dark .text-indigo-600 {
+            color: #a5b4fc;
+        }
+
+        body.dark .text-emerald-500 {
+            color: #34d399;
+        }
+
         .nav-link {
             position: relative;
         }
@@ -60,10 +258,36 @@
         .skill-bar {
             transition: width 1.5s ease;
         }
+
+        img {
+            transition: transform 0.3s ease, border 0.3s ease;
+            border: 4px solid transparent;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+            border: 4px solid var(--primary);
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2.5rem; /* Adjust heading size */
+            }
+            h2 {
+                font-size: 1.5rem; /* Adjust subheading size */
+            }
+            .project-card {
+                margin: 0 10px; /* Add margin for mobile */
+            }
+        }
     </style>
+      
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <body class="text-slate-800">
     <!-- Navigation -->
+      <div class="logo"></div>
     <nav class="fixed w-full bg-white/80 backdrop-blur-sm shadow-sm z-50">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
@@ -76,10 +300,20 @@
                     <a href="#projects" class="nav-link">Projects</a>
                     <a href="#contact" class="nav-link">Contact</a>
                 </div>
+                 <label class="toggle-container" aria-label="Toggle dark mode">
+      <input type="checkbox" id="toggle-theme" />
+      <span class="toggle"></span>
+      <svg class="icon sun" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 4.5a1 1 0 0 1 1-1h0a1 1 0 0 1 1 1v1.5a1 1 0 1 1-2 0V4.5zM12 19.5a1 1 0 0 1 1 1h0a1 1 0 0 1-2 0v-1.5a1 1 0 1 1 2 0v1.5zM4.5 12a1 1 0 0 1-1-1h0a1 1 0 0 1 1-1h1.5a1 1 0 1 1 0 2H4.5zM19.5 12a1 1 0 0 1 1-1h0a1 1 0 0 1-1-1h-1.5a1 1 0 1 1 0 2h1.5zM7.22 7.22a1 1 0 0 1 1.41 0l1.06 1.06a1 1 0 1 1-1.41 1.41L7.22 8.63a1 1 0 0 1 0-1.41zM15.31 15.31a1 1 0 0 1 1.41 0l1.06 1.06a1 1 0 0 1-1.41 1.41l-1.06-1.06a1 1 0 0 1 0-1.41zM7.22 16.78a1 1 0 0 1 0-1.41l1.06-1.06a1 1 0 0 1 1.41 1.41l-1.06 1.06a1 1 0 0 1-1.41 0zM15.31 8.69a1 1 0 0 1 0-1.41l1.06-1.06a1 1 0 0 1 1.41 1.41l-1.06 1.06a1 1 0 0 1-1.41 0zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/>
+      </svg>
+      <svg class="icon moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 0 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
+      </svg>
+    </label>
                 
-                <button class="md:hidden focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <button id="theme-toggle" class="md:hidden focus:outline-none">
+                    <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v2m0 12v2m8-10h-2M6 12H4m15.364 6.364l-1.414-1.414M6.636 6.636l-1.414 1.414M17.657 6.343l-1.414 1.414M6.343 17.657l-1.414-1.414"></path>
                     </svg>
                 </button>
             </div>
@@ -91,11 +325,11 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Hi, I'm <span class="text-indigo-600">Bibek Khadka</span></h1>
-                    <h2 class="text-2xl md:text-3xl font-medium mb-6">An <span class="text-emerald-500">IT studnet</span></h2>
+                    <h1 class="text-4xl </div>md:text-5xl lg:text-6xl font-bold mb-4">Hi, I'm <span class="text-indigo-600">Bibek Khadka</span></h1>
+                    <h2 class="text-2xl md:text-3xl font-medium mb-6">An <span class="text-emerald-500">IT student</span></h2>
                     <p class="text-lg mb-8 max-w-lg">I create beautiful, functional digital experiences focused on user needs and business goals.</p>
                     <div class="flex space-x-4">
-                        <a href="#projects" class="hero-btn bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium">View My Work</a>
+                        <a href="#projects" class="hero-btn bg-indigo-600 tex</div>t-white px-6 py-3 rounded-lg font-medium">View My Work</a>
                         <a href="#contact" class="hero-btn border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg font-medium">Contact Me</a>
                     </div>
                 </div>
@@ -118,26 +352,10 @@
                 
                 <div class="md:w-2/3 md:pl-12">
                     <h3 class="text-2xl font-semibold mb-4">Who I Am</h3>
-                    <p class="mb-6"><p>Hello! My name is Bibek Khadka. I am eager to learn automation and technology. Currently, I am preparing for the IOST entrance exam to take the next step in my education.</p>
-                 <p>Recently, I developed a smart face recognition system and created a website for Sharada Viddhya Mandir School. These projects have helped me improve my coding and problem-solving skills.</p><br>
-                <p>I am passionate about building useful and innovative solutions, and I am excited to keep learning and growing as a developer.</p></p>
-    
-                    
-                    <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div>
-                            <h4 class="font-medium text-indigo-600">Education</h4>
-                            <p>[Your Degree]<br>
-                            [University Name]<br>
-                            [Year Graduated]</p>
-                        </div>
-                        <div>
-                            <h4 class="font-medium text-indigo-600">Experience</h4>
-                            <p>[Current Position]<br>
-                            [Company Name]<br>
-                            [Years of Experience]</p>
-                        </div>
-                    </div>
-                     --><br>
+                    <p class="mb-6">Hello! My name is Bibek Khadka. I am eager to learn automation and technology. Currently, I am preparing for the IOST entrance exam to take the next step in my education.</p>
+                    <p>Recently, I developed a smart face recognition system and created a website for Sharada Viddhya Mandir School. These projects have helped me improve my coding and problem-solving skills.</p><br>
+                    <p>I am passionate about building useful and innovative solutions, and I am excited to keep learning and growing as a developer.</p>
+                    <br>
                     <a href="#" class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium">Download Resume</a>
                 </div>
             </div>
@@ -178,14 +396,15 @@
                         <div>
                             <div class="flex justify-between mb-1">
                                 <span class="font-medium">React</span>
-                                <span class="text-indigo-600">85%</span>
+                
+               <span class="text-indigo-600">85%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
                                 <div class="bg-indigo-600 h-2 rounded-full skill-bar" style="width: 85%"></div>
                             </div>
                         </div>
                         
-                        <div>
+               </section>         <div>
                             <div class="flex justify-between mb-1">
                                 <span class="font-medium">UI/UX Design</span>
                                 <span class="text-indigo-600">80%</span>
@@ -252,70 +471,8 @@
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
             
-            <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"> -->
-                <!-- Project 1 -->
-                <!-- <div class="project-card bg-white rounded-lg overflow-hidden shadow-lg">
-                    <div class="relative overflow-hidden">
-                        <img src="https://placehold.co/600x400" alt="Dashboard interface project showing analytics charts and data visualization components" class="w-full h-56 object-cover">
-                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-80 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                            <a href="#" class="text-white px-4 py-2 border-2 border-white rounded-lg font-medium">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Dashboard UI</h3>
-                        <p class="text-gray-600 mb-4">A responsive admin dashboard with analytics and data visualization tools.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">React</span>
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Chart.js</span>
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Tailwind CSS</span>
-                        </div>
-                    </div>
-                </div> -->
-                
-                <!-- Project 2 -->
-                <!-- <div class="project-card bg-white rounded-lg overflow-hidden shadow-lg">
-                    <div class="relative overflow-hidden">
-                        <img src="https://placehold.co/600x400" alt="Modern e-commerce website project featuring product listings, shopping cart functionality" class="w-full h-56 object-cover">
-                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-80 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                            <a href="#" class="text-white px-4 py-2 border-2 border-white rounded-lg font-medium">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">E-Commerce Platform</h3>
-                        <p class="text-gray-600 mb-4">Full-featured online store with cart functionality and payment processing.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Next.js</span>
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Stripe API</span>
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">MongoDB</span>
-                        </div>
-                    </div>
-                </div> -->
-                
-                <!-- Project 3 -->
-                <!-- <div class="project-card bg-white rounded-lg overflow-hidden shadow-lg">
-                    <div class="relative overflow-hidden">
-                        <img src="https://placehold.co/600x400" alt="Mobile application UI design showing clean screens with intuitive navigation and branding" class="w-full h-56 object-cover">
-                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-80 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                            <a href="#" class="text-white px-4 py-2 border-2 border-white rounded-lg font-medium">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Mobile App Design</h3>
-                        <p class="text-gray-600 mb-4">Fitness tracking mobile application with custom illustrations.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Figma</span>
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">UI Design</span>
-                            <span class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Illustration</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-12">
-                <a href="#" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium">View All Projects</a>
-            </div>
-        </div>-->
-        <p align="center">Not yet!</p>
+            <p align="center">Not yet!</p>
+        </div>
     </section>
 
     <!-- Contact Section -->
@@ -378,27 +535,28 @@
                     </div>
                 </div>
                 
-                <div class="md:w-1/2">
-                    <form class="space-y-4">
-                        <div>
-                            <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70">
-                        </div>
-                        
-                        <div>
-                            <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70">
-                        </div>
-                        
-                        <div>
-                            <input type="text" placeholder="Subject" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70">
-                        </div>
-                        
-                        <div>
-                            <textarea rows="5" placeholder="Your Message" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="w-full bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors">Send Message</button>
-                    </form>
-                </div>
+               <div class="md:w-1/2">
+  <form action="https://formspree.io/f/manbeqbd" method="POST" class="space-y-4">
+    <div>
+      <input type="text" name="name" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70" required>
+    </div>
+    
+    <div>
+      <input type="email" name="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70" required>
+    </div>
+    
+    <div>
+      <input type="text" name="subject" placeholder="Subject" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70" required>
+    </div>
+    
+    <div>
+      <textarea name="message" rows="5" placeholder="Your Message" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent placeholder-white/70" required></textarea>
+    </div>
+    
+    <button type="submit" class="w-full bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors">Send Message</button>
+  </form>
+</div>
+
             </div>
         </div>
     </section>
@@ -424,10 +582,41 @@
 
     <!-- Scripts -->
     <script>
-        // Simple animation for skill bars
+        // Theme toggle (sun/moon icon)
         document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const body = document.body;
+
+            // SVGs for sun and moon
+            const sunSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"></circle>
+                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
+            </svg>`;
+            const moonSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+            </svg>`;
+
+            // Set icon based on mode
+            function updateIcon() {
+                if (body.classList.contains('dark')) {
+                    themeIcon.innerHTML = sunSVG;
+                } else {
+                    themeIcon.innerHTML = moonSVG;
+                }
+            }
+
+            // Initial icon
+            updateIcon();
+
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark');
+                updateIcon();
+            });
+
+            // Skill bar animation
             const skillBars = document.querySelectorAll('.skill-bar');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -439,33 +628,26 @@
                     }
                 });
             }, {threshold: 0.5});
-            
-            skillBars.forEach(bar => {
-                observer.observe(bar);
-            });
-            
+            skillBars.forEach(bar => observer.observe(bar));
+
             // Mobile menu toggle
             const mobileMenuBtn = document.querySelector('button.md\\:hidden');
             const navLinks = document.querySelector('.md\\:flex');
-            
             mobileMenuBtn.addEventListener('click', () => {
                 navLinks.classList.toggle('hidden');
             });
-            
+
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
                     const targetId = this.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
-                    
                     if (targetElement) {
                         window.scrollTo({
                             top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
-                        
                         // Close mobile menu if open
                         if (!navLinks.classList.contains('hidden')) {
                             navLinks.classList.add('hidden');
@@ -474,6 +656,25 @@
                 });
             });
         });
+    // Get elements
+    const toggle = document.getElementById('toggle-theme');
+
+    // Check for saved user preference, if any, on load of the website
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    });
     </script>
+    
 </body>
 </html>
