@@ -57,91 +57,109 @@
         // Initialize particles
         createParticles('bg-particles');
         createParticles('skills-particles', 15);
+// Skills data and initialization
+const technicalSkills = [
+    { name: 'HTML/CSS', level: 85, color: 'from-orange-500 to-red-500' },
+    { name: 'JavaScript', level: 75, color: 'from-yellow-500 to-orange-500' },
+    { name: 'React.js', level: 70, color: 'from-blue-500 to-cyan-500' },
+    { name: 'Python', level: 65, color: 'from-green-500 to-blue-500' },
+    { name: 'Web Design', level: 80, color: 'from-purple-500 to-pink-500' },
+    { name: 'Git/GitHub', level: 75, color: 'from-gray-600 to-gray-800' }
+];
 
-        // Skills data and initialization
-        const technicalSkills = [
-            { name: 'HTML/CSS', level: 85, color: 'from-orange-500 to-red-500' },
-            { name: 'JavaScript', level: 75, color: 'from-yellow-500 to-orange-500' },
-            { name: 'React.js', level: 70, color: 'from-blue-500 to-cyan-500' },
-            { name: 'Python', level: 65, color: 'from-green-500 to-blue-500' },
-            { name: 'Web Design', level: 80, color: 'from-purple-500 to-pink-500' },
-            { name: 'Git/GitHub', level: 75, color: 'from-gray-600 to-gray-800' }
-        ];
+const professionalSkills = [
+    { name: 'Problem Solving', level: 90, icon: '🧩' },
+    { name: 'Team Collaboration', level: 85, icon: '🤝' },
+    { name: 'Communication', level: 95, icon: '💬' },
+    { name: 'Project Management', level: 85, icon: '📋' },
+    { name: 'Creative Thinking', level: 88, icon: '💡' },
+    { name: 'Leadership', level: 90, icon: '👑' }
+];
 
-        const professionalSkills = [
-            { name: 'Problem Solving', level: 90, icon: '🧩' },
-            { name: 'Team Collaboration', level: 85, icon: '🤝' },
-            { name: 'Communication', level: 95, icon: '💬' },
-            { name: 'Project Management', level: 85, icon: '📋' },
-            { name: 'Creative Thinking', level: 88, icon: '💡' },
-            { name: 'Leadership', level: 90, icon: '👑' }
-        ];
+const tools = [
+    { name: 'VS Code', icon: '💻' },
+    { name: 'Figma', icon: '🎨' },
+    { name: 'Photoshop', icon: '📸' },
+    { name: 'Chrome DevTools', icon: '🔧' }
+];
 
-        const tools = [
-            { name: 'VS Code', icon: '💻' },
-            { name: 'Figma', icon: '🎨' },
-            { name: 'Photoshop', icon: '📸' },
-            { name: 'Chrome DevTools', icon: '🔧' }
-        ];
+// Populate technical skills with animation
+function initializeTechnicalSkills() {
+    const container = document.getElementById('technical-skills');
+    container.innerHTML = '';
 
-        // Populate technical skills
-        function initializeTechnicalSkills() {
-            const container = document.getElementById('technical-skills');
-            container.innerHTML = '';
+    technicalSkills.forEach((skill, index) => {
+        const skillDiv = document.createElement('div');
+        skillDiv.className = 'group mb-4';
+        skillDiv.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-medium text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
+                    ${skill.name}
+                </span>
+                <span class="text-sm font-medium text-gray-600">
+                    ${skill.level}%
+                </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div class="skill-bar h-full bg-gradient-to-r ${skill.color} rounded-full" 
+                     style="width: 0%; transition: width 1s ease; transition-delay: ${index * 200}ms;"></div>
+            </div>
+        `;
+        container.appendChild(skillDiv);
 
-            technicalSkills.forEach((skill, index) => {
-                const skillDiv = document.createElement('div');
-                skillDiv.className = 'group';
-                skillDiv.innerHTML = `
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-medium text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
+        // Animate width after appending
+        const bar = skillDiv.querySelector('.skill-bar');
+        setTimeout(() => {
+            bar.style.width = skill.level + '%';
+        }, 50 + index * 200);
+    });
+}
+
+// Populate professional skills with animation
+function initializeProfessionalSkills() {
+    const container = document.getElementById('professional-skills');
+    container.innerHTML = '';
+
+    professionalSkills.forEach((skill, index) => {
+        const skillDiv = document.createElement('div');
+        skillDiv.className = 'group mb-6';
+        skillDiv.innerHTML = `
+            <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-gray-100">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl group-hover:scale-125 transition-transform duration-300">
+                            ${skill.icon}
+                        </span>
+                        <span class="font-medium text-gray-800">
                             ${skill.name}
                         </span>
-                        <span class="text-sm font-medium text-gray-600">
-                            ${skill.level}%
-                        </span>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r ${skill.color} rounded-full" 
-                             style="width: 0%; transition-delay: ${index * 200}ms"></div>
-                    </div>
-                `;
-                container.appendChild(skillDiv);
-            });
-        }
+                    <span class="text-sm font-medium text-blue-600">
+                        ${skill.level}%
+                    </span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                    <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" 
+                         style="width: 0%; transition: width 1s ease; transition-delay: ${index * 150}ms;"></div>
+                </div>
+            </div>
+        `;
+        container.appendChild(skillDiv);
 
-        // Populate professional skills
-        function initializeProfessionalSkills() {
-            const container = document.getElementById('professional-skills');
-            container.innerHTML = '';
+        // Animate width after appending
+        const bar = skillDiv.querySelector('.skill-bar');
+        setTimeout(() => {
+            bar.style.width = skill.level + '%';
+        }, 50 + index * 150);
+    });
+}
 
-            professionalSkills.forEach((skill, index) => {
-                const skillDiv = document.createElement('div');
-                skillDiv.className = 'group';
-                skillDiv.innerHTML = `
-                    <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-gray-100">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-3">
-                                <span class="text-2xl group-hover:scale-125 transition-transform duration-300">
-                                    ${skill.icon}
-                                </span>
-                                <span class="font-medium text-gray-800">
-                                    ${skill.name}
-                                </span>
-                            </div>
-                            <span class="text-sm font-medium text-blue-600">
-                                ${skill.level}%
-                            </span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" 
-                                 style="width: 0%; transition-delay: ${index * 150}ms"></div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(skillDiv);
-            });
-        }
+// Call initialization functions on page load
+window.addEventListener('DOMContentLoaded', () => {
+    initializeTechnicalSkills();
+    initializeProfessionalSkills();
+});
+
 
         // Populate tools
         function initializeTools() {
